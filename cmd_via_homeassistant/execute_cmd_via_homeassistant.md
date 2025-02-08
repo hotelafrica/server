@@ -69,6 +69,13 @@ add the line in the crontab
 @reboot /opt/scripts/01_mqtt_exec.sh
 ```
 
+update system.
+```
+#everyweek, Sunday 4am - update server linux
+0 4 * * 0 sh /opt/scripts/50_update_linux.sh
+```
+
+
 ### 0.2.3 mqtt client 설치
 
 ```
