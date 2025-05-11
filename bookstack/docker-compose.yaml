@@ -1,0 +1,58 @@
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - APP_URL=localhost:6875
+      # APP_KEY must be a unique key. Generate your own by running
+      # docker run -it --rm --entrypoint /bin/bash lscr.io/linuxserver/bookstack:latest appkey
+      # You should keep the "base64:" part for the option value.
+      - APP_KEY=base64:3qjlIoUX4Tw6fUQgZcxMbz6lb8+dAzqpvItqHvahW1c=
+      - DB_HOST=mariadb_bookstack
+      - DB_PORT=3306
+      - DB_USERNAME=bookstackdb@user
+      - DB_PASSWORD=bookstackdb@passwd
+      - DB_DATABASE=bookstackdb
+      - QUEUE_CONNECTION= #optional
+    volumes:
+      - ./config:/config
+    ports:
+      - 6875:80
+    depends_on:
+      - mariadb_bookstack
+    restart: unless-stopped
+
+  mariadb_bookstack:
+    # You should update the version here to match the latest
+    # main version of the linuxserver mariadb container version:
+    # https://github.com/linuxserver/docker-mariadb/pkgs/container/mariadb/versions?filters%5Bversion_type%5D=tagged
+    image: lscr.io/linuxserver/mariadb:11.4.5
+    container_name: mariadb_bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      # You may want to change the credentials used below,
+      # but be aware the latter three options need to align
+      # with the DB_* options for the BookStack container.
+      - MYSQL_ROOT_PASSWORD=mysupersecretrootpassword
+      - MYSQL_DATABASE=bookstackdb
+      - MYSQL_USER=bookstackdb@user
+      - MYSQL_PASSWORD=bookstackdb@passwd
+    volumes:
+      # You generally only ever need to map this one volume.
+      # This maps it to a "bookstack_db_data" folder in the same
+      # directory as this compose config file.
+      - ./bookstack_db_data:/config
+
+    # These ports are commented out as you don't really need this port
+    # exposed for normal use, mainly only if connecting direct the the
+    # database externally. Otherwise, this risks exposing access to the
+    # database when not needed.
+    # ports:
+    #   - 3306:3306
+    restart: unless-stopped
+
