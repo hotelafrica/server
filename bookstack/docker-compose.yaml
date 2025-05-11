@@ -22,15 +22,15 @@ services:
     ports:
       - 6875:80
     depends_on:
-      - mariadb_bookstack
+      - bookstack_mariadb
     restart: unless-stopped
 
-  mariadb_bookstack:
+  bookstack_mariadb:
     # You should update the version here to match the latest
     # main version of the linuxserver mariadb container version:
     # https://github.com/linuxserver/docker-mariadb/pkgs/container/mariadb/versions?filters%5Bversion_type%5D=tagged
     image: lscr.io/linuxserver/mariadb:11.4.5
-    container_name: mariadb_bookstack
+    container_name: bookstack_mariadb
     environment:
       - PUID=1000
       - PGID=1000
