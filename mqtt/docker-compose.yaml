@@ -1,0 +1,16 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    volumes:
+      - /opt/docker/mosquitto/config:/mosquitto/config
+      - /opt/docker/mosquitto/data:/mosquitto/data
+      - /opt/docker/mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 9001:9001
+# networks:
+#   default:
+#     name: rm101
+#     external: true
