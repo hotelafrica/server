@@ -6,17 +6,21 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
-      - APP_URL=localhost:6875
+      - APP_URL=http://<url>:6875
       # APP_KEY must be a unique key. Generate your own by running
       # docker run -it --rm --entrypoint /bin/bash lscr.io/linuxserver/bookstack:latest appkey
       # You should keep the "base64:" part for the option value.
-      - APP_KEY=base64:3qjlIoUX4Tw6fUQgZcxMbz6lb8+dAzqpvItqHvahW1c=
+      - APP_KEY=base64:nr4xXXXXXXXXXXXX
       - DB_HOST=bookstack_mariadb
       - DB_PORT=3306
       - DB_USERNAME=bookstackdb@user
       - DB_PASSWORD=bookstackdb@passwd
       - DB_DATABASE=bookstackdb
       - QUEUE_CONNECTION= #optional
+      # File Upload Limit
+      # Maximum file size, in megabytes, that can be uploaded to the system.
+      - FILE_UPLOAD_SIZE_LIMIT=500
+      - STORAGE_TYPE=local
     volumes:
       - ./config:/config
     ports:
